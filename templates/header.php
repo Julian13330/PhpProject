@@ -1,9 +1,12 @@
 <?php
+
     $mainMenu= [
-        ["page" => "index.php", "title" => "accueil", "head_title" => "Accueil TechTrendz" , "meta_description" => "TechTrendz, l'actu tech !"],
-        ["page" => "a_propos.php", "title" => "A propos", "meta_description" => "L'histoire du site TechTrendz"],
-        ["page" => "actualites.php", "title" => "actu web", "meta_description" => "Découvrez toutes nos actualités"],
+        "index.php" => ["menu_title" => "accueil", "head_title" => "Accueil TechTrendz" , "meta_description" => "TechTrendz, l'actu tech !"],
+        "a_propos.php" => ["menu_title" => "Actualités", "head_title" => "A propos de TechTrendz","meta_description" => "L'histoire du site TechTrendz"],
+        "actualite.php" => ["menu_title" => "actu web", "head_title" => "Actualités tech et dev","meta_description" => "Découvrez toutes nos actualités"],
     ];
+
+    $currentPage = basename($_SERVER["SCRIPT_NAME"]);
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +15,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>techTrendz</title>
+    <meta name="description" content=<?=@$mainMenu[$currentPage]["meta_description"] ?>>
+    <title><?=$mainMenu[$currentPage]["head_title"] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/override-bootstrap.css">
 </head>
@@ -26,10 +30,13 @@
                 </a>
             </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-
-                <?php foreach ($mainMenu as $key => $menuItem) { ?>
-                    <li><a href="<?=$menuItem["page"]; ?>" class="nav-link px-2"><?=$menuItem["title"]; ?></a></li>    
+            <ul class="nav nav-pills col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <?php foreach ($mainMenu as $key => $menuItem) {
+                    if (!array_key_exists("exclude", $menuItem))
+                    ?>
+                    <li class="nav-item"><a href="<?=$key; ?>" class="nav-link px-2 <?php 
+                        if ($key === $currentPage){echo "active";}?>">
+                        <?=$menuItem["menu_title"]; ?></a></li>    
                 <?php }?>
             </ul>
 
